@@ -1,3 +1,15 @@
+function showAbout() {
+    document.getElementById("about-overlay").style.display = "flex";
+}
+
+function closeAbout() {
+    document.getElementById("about-overlay").style.display = "none";
+}
+
+function toggleMode() {
+    document.body.classList.toggle('dark-mode');
+}
+
 function dimSections(activeSection) {
     const sections = document.querySelectorAll('.section');
     sections.forEach((section, index) => {
@@ -7,10 +19,6 @@ function dimSections(activeSection) {
             section.classList.remove('dimmed');
         }
     });
-}
-
-function toggleMode() {
-    document.body.classList.toggle('dark-mode');
 }
 
 function analyzeText() {

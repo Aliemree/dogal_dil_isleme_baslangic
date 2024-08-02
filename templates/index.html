@@ -231,6 +231,12 @@
             <input type="text" id="qa-question" placeholder="Soruyu buraya yazın...">
             <button onclick="answerQuestion()">Soru-Cevap</button>
         </div>
+
+        <div id="section5" class="section">
+            <h2>Metni Oku</h2>
+            <textarea id="text-to-read" placeholder="Metni buraya yazın..." onclick="dimSections(5)"></textarea>
+            <button onclick="readText()">Oku</button>
+        </div>
     </div>
 
     <!-- Overlay for About Screen -->
@@ -251,27 +257,22 @@
                 White Angels'ın bir sonraki adımı, yaratıcılıklarını ve teknik becerilerini daha geniş bir kitleye tanıtmak ve endüstriye katkı sağlamaktır. Her biri kendi alanında uzmanlaşan bu genç mühendisler, gelecekte teknoloji dünyasında önemli bir rol oynamaya adaydır.
             </p>
             <p>
-                Bu genç ve dinamik ekip, sadece bilgisayar mühendisliği değil, aynı zamanda inovasyon ve işbirliği ruhunu da temsil etmektedir. White Angels, geleceğin teknoloji liderleri olarak adlarını duyurmaya devam edecek gibi görünüyor.
+                Bu genç ve dinamik ekip, sadece bilgisayar mühendisliği değil, aynı zamanda inovasyon ve işbirliği ruhunu da temsil etmektedir. White Angels, teknolojiye olan bağlılıkları ve sürekli öğrenme istekleriyle, geleceğin teknoloji liderleri olma yolunda emin adımlarla ilerlemektedir.
             </p>
         </div>
     </div>
 
     <div class="footer">
-        Tasarım Takımımıza Aittir
+        <p>&copy; 2024 WhiteAngels. Tüm Hakları Saklıdır.</p>
     </div>
 
     <script>
-        // Başlangıçta hakkında overlay'i gizle
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("about-overlay").style.display = "none";
-        });
-
         function showAbout() {
-            document.getElementById("about-overlay").style.display = "flex";
+            document.getElementById('about-overlay').style.display = 'flex';
         }
 
         function closeAbout() {
-            document.getElementById("about-overlay").style.display = "none";
+            document.getElementById('about-overlay').style.display = 'none';
         }
 
         function toggleMode() {
@@ -279,91 +280,117 @@
         }
 
         function dimSections(activeSection) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach((section, index) => {
-                if (index + 1 !== activeSection) {
-                    section.classList.add('dimmed');
-                } else {
+            for (let i = 1; i <= 5; i++) {
+                let section = document.getElementById(`section${i}`);
+                if (i === activeSection) {
                     section.classList.remove('dimmed');
+                } else {
+                    section.classList.add('dimmed');
                 }
-            });
+            }
         }
 
         function analyzeText() {
             const text = document.getElementById('text-analysis').value;
-            if (text.trim() === "") {
-                alert("Lütfen metin giriniz.");
+            if (!text.trim()) {
+                alert("Lütfen analiz etmek için bir metin girin.");
                 return;
             }
-            fetch('/analyze', {
+            // API çağrısı yapın ve sonucu işleyin
+            fetch('/analyze-text', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ text: text, type: 'text_analysis' })
+                body: JSON.stringify({ text }),
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.result);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    alert("Metin analizi sonuçları: " + JSON.stringify(data));
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
         function classifyText() {
             const text = document.getElementById('text-classification').value;
-            if (text.trim() === "") {
-                alert("Lütfen metin giriniz.");
+            if (!text.trim()) {
+                alert("Lütfen sınıflandırmak için bir metin girin.");
                 return;
             }
-            fetch('/analyze', {
+            // API çağrısı yapın ve sonucu işleyin
+            fetch('/classify-text', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ text: text, type: 'text_classification' })
+                body: JSON.stringify({ text }),
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.result);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    alert("Metin sınıflandırma sonuçları: " + JSON.stringify(data));
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
         function analyzeSentiment() {
             const text = document.getElementById('sentiment-analysis').value;
-            if (text.trim() === "") {
-                alert("Lütfen metin giriniz.");
+            if (!text.trim()) {
+                alert("Lütfen duygu analizi için bir metin girin.");
                 return;
             }
-            fetch('/analyze', {
+            // API çağrısı yapın ve sonucu işleyin
+            fetch('/analyze-sentiment', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ text: text, type: 'sentiment_analysis' })
+                body: JSON.stringify({ text }),
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.result);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    alert("Duygu analizi sonuçları: " + JSON.stringify(data));
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
         function answerQuestion() {
             const context = document.getElementById('qa-context').value;
             const question = document.getElementById('qa-question').value;
-            if (context.trim() === "" || question.trim() === "") {
-                alert("Lütfen metin ve soru giriniz.");
+            if (!context.trim() || !question.trim()) {
+                alert("Lütfen soru-cevap için bir metin ve bir soru girin.");
                 return;
             }
-            fetch('/analyze', {
+            // API çağrısı yapın ve sonucu işleyin
+            fetch('/answer-question', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ text: context, type: 'question_answering', question: question })
+                body: JSON.stringify({ context, question }),
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.result);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    alert("Soru-Cevap sonuçları: " + JSON.stringify(data));
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function readText() {
+            const text = document.getElementById('text-to-read').value;
+            if (!text.trim()) {
+                alert("Lütfen okumak için bir metin girin.");
+                return;
+            }
+            const utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
         }
     </script>
 </body>

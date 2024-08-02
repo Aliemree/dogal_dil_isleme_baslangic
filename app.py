@@ -4,9 +4,11 @@ from transformers import pipeline
 app = Flask(__name__)
 qa_pipeline = pipeline("question-answering", model="distilbert-base-uncased-distilled-squad")
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
@@ -17,15 +19,15 @@ def analyze():
     if analysis_type == 'text_analysis':
         word_count = len(text.split())
         return jsonify(result=f'Metin {word_count} kelime içeriyor.')
-    
+
     elif analysis_type == 'text_classification':
         categories = classify_text(text)
         return jsonify(result=f'Metin sınıfı: {categories}')
-    
+
     elif analysis_type == 'sentiment_analysis':
         sentiment = analyze_sentiment(text)
         return jsonify(result=f'Duygu analizi sonucu: {sentiment}')
-    
+
     elif analysis_type == 'question_answering':
         question = data.get('question')
         if question:
@@ -33,10 +35,14 @@ def analyze():
             return jsonify(result=f'Soru-Cevap: {answer}')
         return jsonify(result='Soru belirtilmedi.')
 
+    elif analysis_type == 'text_to_speech':
+        # Sesli okuma işlemi istemci tarafında yapılır.
+        return jsonify(result='Metni sesli olarak okuma işlemi istemci tarafında yapılacaktır.')
+
     return jsonify(result='Geçersiz analiz türü.')
 
+
 def classify_text(text):
-    # Basit bir örnek sınıflandırma
     if "spor" in text:
         return "Spor"
     elif "ekonomi" in text:
@@ -45,6 +51,7 @@ def classify_text(text):
         return "Siyaset"
     else:
         return "Diğer"
+
 
 def analyze_sentiment(text):
     positive_words = ["mutlu", "harika", "iyi", "mükemmel", "güzel"]
@@ -58,9 +65,11 @@ def analyze_sentiment(text):
     else:
         return "Nötr"
 
+
 def answer_question(text, question):
     result = qa_pipeline({'context': text, 'question': question})
     return result['answer']
+
 
 if __name__ == '__main__':
     app.run(debug=True)

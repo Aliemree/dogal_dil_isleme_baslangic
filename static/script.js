@@ -112,48 +112,12 @@ function answerQuestion() {
 function readText() {
     const text = document.getElementById('text-to-read').value;
     if (text.trim() === "") {
-        alert("Lütfen metin giriniz.");
+        alert("Metin boş. Lütfen bir metin girin.");
         return;
     }
+
     const utterance = new SpeechSynthesisUtterance(text);
-    window.speechSynthesis.speak(utterance);
-}
-function showSignLanguage() {
-    const text = document.getElementById('text-to-read').value;
-
-    // İşaret dili API'si ile metni çevirme
-    fetch('API_ENDPOINT', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text: text })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // API'den dönen veriyi kullanarak işaret dili animasyonunu gösterme
-        const signLanguageVideoUrl = data.videoUrl;
-        // İşaret dili animasyonunu sayfada göstermek için uygun HTML/CSS kodları
-    })
-    .catch(error => {
-        console.error('Hata:', error);
-        alert('İşaret dili çevirisi sırasında bir hata oluştu.');
-    });
-}
-
-
-    fetch('/analyze', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text: text, type: 'text_to_speech' })
-    })
-    .then(response => response.json())
-    .then(data => {
-        const utterance = new SpeechSynthesisUtterance(text);
-        window.speechSynthesis.speak(utterance);
-    });
+    speechSynthesis.speak(utterance);
 }
 
 // Diğer işlem işlevleri

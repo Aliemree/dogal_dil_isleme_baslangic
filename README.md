@@ -1,4 +1,4 @@
-
+py
 # Türkçe Dil İşleme Projesi
 
 Bu proje, Türkçe metinlerin otomatik olarak sınıflandırılması, duygu analizi yapılması, metinlerin anlamının anlaşılması ve soru-cevap işlemleri için geliştirilmiştir.

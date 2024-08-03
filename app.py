@@ -4,11 +4,9 @@ from transformers import pipeline
 app = Flask(__name__)
 qa_pipeline = pipeline("question-answering", model="distilbert-base-uncased-distilled-squad")
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
@@ -36,11 +34,9 @@ def analyze():
         return jsonify(result='Soru belirtilmedi.')
 
     elif analysis_type == 'text_to_speech':
-        # Sesli okuma işlemi istemci tarafında yapılır.
         return jsonify(result='Metni sesli olarak okuma işlemi istemci tarafında yapılacaktır.')
 
     return jsonify(result='Geçersiz analiz türü.')
-
 
 def classify_text(text):
     if "spor" in text:
@@ -51,7 +47,6 @@ def classify_text(text):
         return "Siyaset"
     else:
         return "Diğer"
-
 
 def analyze_sentiment(text):
     positive_words = ["mutlu", "harika", "iyi", "mükemmel", "güzel"]
@@ -65,11 +60,9 @@ def analyze_sentiment(text):
     else:
         return "Nötr"
 
-
 def answer_question(text, question):
     result = qa_pipeline({'context': text, 'question': question})
     return result['answer']
-
 
 if __name__ == '__main__':
     app.run(debug=True)

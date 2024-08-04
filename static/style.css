@@ -125,12 +125,7 @@ h1 {
     opacity: 0.5;
 }
 
-.footer {
-    margin-top: 20px;
-    text-align: center;
-    color: #888;
-    font-size: 12px;
-}
+
 
 .dark-mode {
     background-color: #121212;
@@ -147,6 +142,12 @@ h1 {
 }
 
 .dark-mode .section textarea {
+    background-color: #555;
+    color: #fff;
+    border: 1px solid #777;
+}
+
+.dark-mode .section input {
     background-color: #555;
     color: #fff;
     border: 1px solid #777;
@@ -210,13 +211,67 @@ h1 {
     cursor: pointer;
 }
 
+/* Ürün arama kısmı */
+.product-search-section {
+    flex: 1;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
+}
+
+.product-search-section h2 {
+    font-size: 20px;
+    color: #555;
+}
+
+.product-search-section input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.product-search-section button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.product-search-section button:hover {
+    background-color: #0056b3;
+}
+
+.dark-mode .product-search-section input {
+    background-color: #555;
+    color: #fff;
+    border: 1px solid #777;
+}
+
+.dark-mode .product-search-section button {
+    background-color: #444;
+}
+
+.dark-mode .product-search-section button:hover {
+    background-color: #222;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
         padding: 10px;
     }
-    .section {
+    .section, .product-search-section {
         margin: 10px 0;
     }
 }
